@@ -1,23 +1,32 @@
 package com.utn.productos.controller;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.utn.productos.dto.ActualizarStockDTO;
 import com.utn.productos.dto.ProductoDTO;
 import com.utn.productos.dto.ProductoResponseDTO;
 import com.utn.productos.model.Categoria;
 import com.utn.productos.service.ProductoService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Tag(name="Productos", description = "api enpints para ecommerce")
+@Tag(name = "Productos", description = "api enpints para ecommerce")
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoController {
@@ -30,8 +39,8 @@ public class ProductoController {
 
     @Operation(summary = "Obtener todos los productos")
     @ApiResponse(responseCode = "200", description = "Lista de productos obtenida correctamente")
-    @GetMapping
-    public ResponseEntity<List<ProductoResponseDTO>> obtenerTodosProductos(){
+    @GetMapping({"", "/"})
+    public ResponseEntity<List<ProductoResponseDTO>> obtenerTodosProductos() {
         List<ProductoResponseDTO> productos = service.obtenerTodosProductos();
         return ResponseEntity.ok(productos);
     }
@@ -52,8 +61,8 @@ public class ProductoController {
             @ApiResponse(responseCode = "200", description = "Producto obtenido correctamente"),
             @ApiResponse(responseCode = "404", description = "Producto no encontrado")
     })
-    @GetMapping("/{categoria}")
-    public ResponseEntity<List<ProductoResponseDTO>> obtenerProductoPorCategoria(@PathVariable Categoria categoria){
+    @GetMapping("/categoria/{categoria}")
+    public ResponseEntity<List<ProductoResponseDTO>> obtenerProductoPorCategoria(@PathVariable Categoria categoria) {
         List<ProductoResponseDTO> productos = service.obtenerProductoPorCategoria(categoria);
         return ResponseEntity.ok(productos);
     }
